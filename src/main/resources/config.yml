@@ -1,0 +1,35 @@
+discord:
+  token: "YOUR_DISCORD_BOT_TOKEN"
+  guild-id: "YOUR_GUILD_ID"
+  voice-channel-id: "YOUR_VOICE_CHANNEL_ID"
+  api-url: "http://localhost:8080"
+
+game:
+  max-players: 20
+  min-players: 4
+  wolf-ratio: 0.33
+  day-duration: 300
+  night-duration: 300
+  voting-duration: 120
+
+roles:
+  wolf:
+    display-name: "Weerwolf"
+    description: "Elimineer de burgers 's nachts"
+  villager:
+    display-name: "Burger"
+    description: "Bescherm jezelf tegen de weerwolven"
+  seer:
+    display-name: "Ziener"
+    description: "Onderzoek spelers om hun rol te ontdekken"
+  hunter:
+    display-name: "Jager"
+    description: "Schiet op iemand als je wordt geëlimineerd"
+
+messages:
+  game-created: "§aGame gecreëerd! Voeg spelers toe met /addplayer"
+  game-started: "§c=== GAME GESTART ==="
+  night-started: "§8=== NACHT GEVALLEN ==="
+  day-started: "§c=== DAG GEBROKEN ==="
+  voting-started: "§e=== STEMMEN GESTART ==="
+  game-ended: "§6=== SPEL VOORBIJ ==="

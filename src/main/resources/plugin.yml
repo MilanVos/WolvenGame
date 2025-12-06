@@ -1,0 +1,4 @@
+name: WolvenGame
+version: '${project.version}'
+main: nl.phoenixdev.wolvengame.WolvenGame
+api-version: '1.20'
