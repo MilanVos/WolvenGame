@@ -2,3 +2,27 @@ name: WolvenGame
 version: '${project.version}'
 main: nl.phoenixdev.wolvengame.WolvenGame
 api-version: '1.20'
+description: Weerwolven Deluxe Plugin met Discord integratie
+
+commands:
+  host:
+    description: Host commando's
+    usage: /host <create|freeze|nacht>
+  addplayer:
+    description: Voeg spelers toe
+    usage: /addplayer <speler>
+  vote:
+    description: Stem in het spel
+    usage: /vote <speler>
+  sethouse:
+    description: Stel je huisje in
+    usage: /sethouse
+  setspawn:
+    description: Stel spawn locatie in
+    usage: /setspawn
+  setroleinfo:
+    description: Stel rol informatie in
+    usage: /setroleinfo <rol> <beschrijving>
+  reloadconfig:
+    description: Herladen configuratie
+    usage: /reloadconfig
