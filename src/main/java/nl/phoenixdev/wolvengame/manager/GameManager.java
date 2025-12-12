@@ -141,6 +141,19 @@ public class GameManager {
         broadcastMessage("§e=== STEMMEN GESTART ===");
     }
 
+    public void killPlayer(String playerName) {
+        WolvenPlayer player = players.get(playerName);
+        if (player != null && player.isAlive()) {
+            player.setAlive(false);
+            player.getPlayer().sendMessage("§cJe bent vermoord!");
+            broadcastMessage("§c" + playerName + " is overleden.");
+            
+            if (discordManager != null) {
+                discordManager.mutePlayer(playerName);
+            }
+        }
+    }
+
     public void endGame(GameRole winner) {
         gameState = GameState.ENDED;
         broadcastMessage("§6=== SPEL VOORBIJ ===");

@@ -12,12 +12,18 @@ import javax.security.auth.login.LoginException;
 public class DiscordBotMain {
     private JDA jda;
     private String discordToken;
+    private String guildId;
+    private String voiceChannelId;
+    private VoiceManager voiceManager;
+    private BotHttpServer httpServer;
 
-    public DiscordBotMain(String discordToken) {
+    public DiscordBotMain(String discordToken, String guildId, String voiceChannelId) {
         this.discordToken = discordToken;
+        this.guildId = guildId;
+        this.voiceChannelId = voiceChannelId;
     }
 
-    public void start() throws LoginException, InterruptedException {
+    public void start() throws LoginException, InterruptedException, java.io.IOException {
         jda = JDABuilder.createDefault(discordToken)
                 .setStatus(OnlineStatus.ONLINE)
                 .setActivity(Activity.playing("Weerwolven"))
@@ -27,6 +33,10 @@ public class DiscordBotMain {
 
         jda.awaitReady();
 
+        voiceManager = new VoiceManager(jda, guildId, voiceChannelId);
+        httpServer = new BotHttpServer(voiceManager);
+        httpServer.start(8080);
+
         jda.addEventListener(new DiscordEventListener(this));
         jda.addEventListener(new DiscordCommandListener(this));
 
@@ -34,6 +44,9 @@ public class DiscordBotMain {
     }
 
     public void stop() {
+        if (httpServer != null) {
+            httpServer.stop();
+        }
         if (jda != null) {
             jda.shutdown();
         }
@@ -44,19 +57,22 @@ public class DiscordBotMain {
     }
 
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.err.println("Discord token required as argument");
+        if (args.length < 3) {
+            System.err.println("Usage: java -jar bot.jar <token> <guildId> <voiceChannelId>");
             System.exit(1);
         }
 
         try {
-            DiscordBotMain bot = new DiscordBotMain(args[0]);
+            DiscordBotMain bot = new DiscordBotMain(args[0], args[1], args[2]);
             bot.start();
         } catch (LoginException e) {
             System.err.println("Invalid Discord token!");
             e.printStackTrace();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (java.io.IOException e) {
+            System.err.println("Failed to start HTTP server!");
+            e.printStackTrace();
         }
     }
 }

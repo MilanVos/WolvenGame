@@ -2,8 +2,8 @@ package nl.phoenixdev.wolvengame.discord;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class VoiceManager {
             return;
         }
 
-        VoiceChannel voiceChannel = guild.getVoiceChannelById(voiceChannelId);
+        net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel voiceChannel = guild.getVoiceChannelById(voiceChannelId);
         if (voiceChannel == null) {
             System.err.println("Voice channel not found!");
             return;
@@ -50,7 +50,7 @@ public class VoiceManager {
 
         List<Member> members = guild.getMembersByName(playerName, true);
         for (Member member : members) {
-            guild.mute(member).queue();
+            guild.mute(member, true).queue();
         }
     }
 
@@ -60,7 +60,7 @@ public class VoiceManager {
 
         List<Member> members = guild.getMembersByName(playerName, true);
         for (Member member : members) {
-            guild.unmute(member).queue();
+            guild.mute(member, false).queue();
         }
     }
 
@@ -73,7 +73,7 @@ public class VoiceManager {
 
         for (Member member : voiceChannel.getMembers()) {
             if (!member.getUser().isBot()) {
-                guild.mute(member).queue();
+                guild.mute(member, true).queue();
             }
         }
     }
@@ -87,7 +87,7 @@ public class VoiceManager {
 
         for (Member member : voiceChannel.getMembers()) {
             if (!member.getUser().isBot()) {
-                guild.unmute(member).queue();
+                guild.mute(member, false).queue();
             }
         }
     }

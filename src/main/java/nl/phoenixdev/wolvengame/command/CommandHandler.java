@@ -66,8 +66,19 @@ public class CommandHandler implements CommandExecutor {
                 }
                 gameManager.setNight();
                 return true;
+            case "kill":
+                if (!isHost(player)) {
+                    player.sendMessage("§cAlleen de host kan dit doen!");
+                    return false;
+                }
+                if (args.length < 2) {
+                    player.sendMessage("§c/host kill <speler>");
+                    return false;
+                }
+                gameManager.killPlayer(args[1]);
+                return true;
             default:
-                player.sendMessage("§c/host create|freeze|nacht");
+                player.sendMessage("§c/host create|freeze|nacht|kill");
                 return false;
         }
     }
