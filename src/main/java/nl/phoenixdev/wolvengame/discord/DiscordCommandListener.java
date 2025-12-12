@@ -56,7 +56,7 @@ public class DiscordCommandListener extends ListenerAdapter {
             return;
         }
 
-        guild.mute(member).queue(
+        guild.mute(member, true).queue(
             success -> event.getChannel().sendMessage("✅ " + member.getUser().getName() + " is muted").queue(),
             error -> event.getChannel().sendMessage("❌ Failed to mute").queue()
         );
@@ -77,7 +77,7 @@ public class DiscordCommandListener extends ListenerAdapter {
             return;
         }
 
-        guild.unmute(member).queue(
+        guild.mute(member, false).queue(
             success -> event.getChannel().sendMessage("✅ " + member.getUser().getName() + " is unmuted").queue(),
             error -> event.getChannel().sendMessage("❌ Failed to unmute").queue()
         );
@@ -87,7 +87,7 @@ public class DiscordCommandListener extends ListenerAdapter {
         Guild guild = event.getGuild();
         guild.getVoiceChannels().forEach(voiceChannel -> 
             voiceChannel.getMembers().forEach(member -> 
-                guild.mute(member).queue()
+                guild.mute(member, true).queue()
             )
         );
         event.getChannel().sendMessage("✅ All members muted").queue();
@@ -97,7 +97,7 @@ public class DiscordCommandListener extends ListenerAdapter {
         Guild guild = event.getGuild();
         guild.getVoiceChannels().forEach(voiceChannel -> 
             voiceChannel.getMembers().forEach(member -> 
-                guild.unmute(member).queue()
+                guild.mute(member, false).queue()
             )
         );
         event.getChannel().sendMessage("✅ All members unmuted").queue();
